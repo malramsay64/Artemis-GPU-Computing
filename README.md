@@ -27,37 +27,43 @@ I am fairly certain that very few people have been using the GPUs on Artemis sin
 
 1. To check that there are actually GPUs connected and you are on a GPU node, if there are NVIDIA GPUs connected there should be a response. The following shows the two Tesla K40m cards connected to a GPU node.
 
-    $ lspci | grep -i nvidia
-    03:00.0 3D controller: NVIDIA Corporation GK110BGL [Tesla K40m] (rev a1)
-    82:00.0 3D controller: NVIDIA Corporation GK110BGL [Tesla K40m] (rev a1)
+```
+$ lspci | grep -i nvidia
+03:00.0 3D controller: NVIDIA Corporation GK110BGL [Tesla K40m] (rev a1)
+82:00.0 3D controller: NVIDIA Corporation GK110BGL [Tesla K40m] (rev a1)
+```
 
 2. Checking the driver versions of the cards, as well as their utilisation. If there are jobs running you will see them under the compute processes.
 
-    $ nvidia-smi
-    +------------------------------------------------------+                       
-    | NVIDIA-SMI 340.65     Driver Version: 340.65         |                       
-    |-------------------------------+----------------------+----------------------+
-    | GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
-    | Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
-    |===============================+======================+======================|
-    |   0  Tesla K40m          Off  | 0000:03:00.0     Off |                    0 |
-    | N/A   32C    P0    59W / 235W |     55MiB / 11519MiB |      0%      Default |
-    +-------------------------------+----------------------+----------------------+
-    |   1  Tesla K40m          Off  | 0000:82:00.0     Off |                    0 |
-    | N/A   34C    P0    68W / 235W |     55MiB / 11519MiB |    100%      Default |
-    +-------------------------------+----------------------+----------------------+
-    +-----------------------------------------------------------------------------+
-    | Compute processes:                                               GPU Memory |
-    |  GPU       PID  Process name                                     Usage      |
-    |=============================================================================|
-    |  No running compute processes found                                         |
-    +-----------------------------------------------------------------------------+
+```
+$ nvidia-smi
++------------------------------------------------------+                       
+| NVIDIA-SMI 340.65     Driver Version: 340.65         |                       
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  Tesla K40m          Off  | 0000:03:00.0     Off |                    0 |
+| N/A   32C    P0    59W / 235W |     55MiB / 11519MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+|   1  Tesla K40m          Off  | 0000:82:00.0     Off |                    0 |
+| N/A   34C    P0    68W / 235W |     55MiB / 11519MiB |    100%      Default |
++-------------------------------+----------------------+----------------------+
++-----------------------------------------------------------------------------+
+| Compute processes:                                               GPU Memory |
+|  GPU       PID  Process name                                     Usage      |
+|=============================================================================|
+|  No running compute processes found                                         |
++-----------------------------------------------------------------------------+
+```
 
 3. Ensure that the CUDA Runtime can communicate with the GPUs.
 
-    $ module load cuda
-    $ deviceQuery | grep ^Result
-    Result = PASS
+```
+$ module load cuda
+$ deviceQuery | grep ^Result
+Result = PASS
+```
 
 The `deviceQuery` program can be used to get a wide array of information about the GPU including; dri version compatibility, compute capability, ECC support. Essentially it has everything you might want to know about the GPU. This tool is part of the CUDA Samples package and needs to be compiled, however it is loaded into the `$PATH` when CUDA is loaded on Artemis.
 
@@ -163,19 +169,19 @@ Getting this working on a local machine is a reasonably simple process.
 
 1. Get Hoomd to send imd snapshots to a port. This has already been done in [trimer.hoomd](trimer.hoomd)
 
-    > analyze.imd(port=54321, rate=100)
+        > analyze.imd(port=54321, rate=100)
 
 2. Set the simulation running for a reasonable period of time (1 minute or more). 1 million timesteps should work.
 
-    > run(1000000)
+        > run(1000000)
 
 3. In a separate terminal load the initial configuration xml file (trimer.xml) into VMD
 
-    $ vmd -hoomd trimer.xml
+        $ vmd -hoomd trimer.xml
 
 4. Connect VMD to the port opened by hoomd.
 
-    > imd connect localhost 54321
+        > imd connect localhost 54321
 
 This should result in the configuration in VMD updating in real time.
 
@@ -189,7 +195,7 @@ While a little more complicated, running a simulation on Artemis while viewing i
     2. For a batch script knowing your `<job id>` run `pbs-nodes -a | grep -C6 <job id>` which should have the node at the top
 2. Create an ssh tunnel from the local machine to the node through artemis
 
-    $ ssh -L 54321:<compute node>:54321 -N hpc.sydney.edu.au
+        $ ssh -L 54321:<compute node>:54321 -N hpc.sydney.edu.au
 
 3. Run VMD as per a local session
 
