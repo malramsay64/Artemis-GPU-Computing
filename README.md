@@ -75,12 +75,14 @@ Hoomd
 
 ### Benchmarks
 
-As an example of the speed up exhibited when using the GPU the below table shows results from running a [standard lj-liquid benchmark](http://nbviewer.jupyter.org/github/joaander/hoomd-benchmarks/blob/master/lj-liquid.ipynb) of 64000 particles on a single node of Artemis.
+As an example of the speed up exhibited when using the GPU the below table shows results from running a [standard lj-liquid benchmark](http://nbviewer.jupyter.org/github/joaander/hoomd-benchmarks/blob/master/lj-liquid.ipynb) of 64000 particles on Artemis.
 
 | Num GPUs  | Num Threads | TPS  | Speed Up |
 | --------- | ----------  | ---- | -------  |
 | 1         | 1           | 879  | 4.08     |
 | 2         | 2           | 1155 | 5.37     |
+| 4         | 4           | 1575 | 7.32     |
+| 6         | 6           | 1990 | 9.25     |
 | 2         | 4           | 677  | 3.14     |
 | 0         | 24          | 215  | 1.00     |
 
