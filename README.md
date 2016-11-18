@@ -13,11 +13,11 @@ With the upgrade to Artemis there has been a change to the way jobs are selected
 
 Here we are selecting 1 'chunk', where the 'chunk' consists of 1 cpu and 16 Gb of RAM. If we want 16 cores, we could either run 
 
-    echo "cat \$PBS_NODES > nodes.txt" | qsub -l select=1:ncpus=16:mem=256gb -l walltime=4:00:00 -P <project>
+    echo "cat \$PBS_NODEFILE > nodes.txt" | qsub -l select=1:ncpus=16:mem=256gb -l walltime=4:00:00 -P <project>
 
 or 
 
-    echo "cat \$PBS_NODES > nodes.txt" | qsub -l select=16:ncpus=1:mem=16gb -l walltime=4:00:00 -P <project>
+    echo "cat \$PBS_NODEFILE > nodes.txt" | qsub -l select=16:ncpus=1:mem=16gb -l walltime=4:00:00 -P <project>
 
 The first of which will select 16 cores on a single node, while the second will select 16 cpus amongst any available across all the nodes.
 
