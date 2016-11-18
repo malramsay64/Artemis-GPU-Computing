@@ -83,7 +83,7 @@ The instantaneous values we get from this should be relatively close to our targ
     > t_values = []
     > p_values = []
     > for i in range(100):
-    .   run(1000)
+    .   hoomd.run(1000)
     .   t_values.append(thermo.query('temperature'))
     .   t_values.append(thermo.query('pressure'))
     .
